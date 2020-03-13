@@ -1,11 +1,14 @@
 package com.bridgelabz.bookstore.dto;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 public class BookDTO {
 
     @NotNull
+    @Length(min = 2, max = 20, message = "Invalid Book Name")
     public String bookName;
     @NotNull
     public String authorName;
@@ -16,15 +19,18 @@ public class BookDTO {
     public String bookDetail;
     public String bookImageSrc;
     @NotNull
-    public Date date;
+    @Range(min = 1000, max = 2020, message = "Invalid Publishing Year")
+    public int publishingYear;
 
-    public BookDTO(@NotNull String bookName, @NotNull String authorName, @NotNull double bookPrice, @NotNull double noOfCopies, String bookDetail, String bookImageSrc, @NotNull Date date) {
+    public BookDTO(@NotNull String bookName, @NotNull String authorName,
+                   @NotNull double bookPrice, @NotNull double noOfCopies,
+                   String bookDetail, String bookImageSrc, @NotNull @Length int publishingYear) {
         this.bookName = bookName;
         this.authorName = authorName;
         this.bookPrice = bookPrice;
         this.noOfCopies = noOfCopies;
         this.bookDetail = bookDetail;
         this.bookImageSrc = bookImageSrc;
-        this.date = date;
+        this.publishingYear = publishingYear;
     }
 }

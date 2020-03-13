@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.controller;
 
+import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.service.BookService;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BookStoreTest {
+public class BookStoreControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -94,5 +95,16 @@ public class BookStoreTest {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(400, status);
+    }
+
+    @Test
+    void givenRequestToController_WhenWrongRequestData_thenShouldThrowException() throws Exception {
+            bookDTO = new BookDTO("m", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
+            String json = gson.toJson(bookDTO);
+            when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
+            MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
+                    .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        Assert.assertEquals("Invalid Data",contentAsString);
     }
 }
