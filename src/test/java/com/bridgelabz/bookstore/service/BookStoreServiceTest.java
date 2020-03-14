@@ -78,6 +78,7 @@ public class BookStoreServiceTest {
         books.add(bookDetails1);
         when(bookStoreRepository.getBooks(anyInt(), anyInt())).thenReturn(books);
         List<BookDetails> booksReturned = bookStoreService.getAllBooks(1);
+        System.out.println("-------------> " + booksReturned);
         Assert.assertEquals(2, booksReturned.size());
     }
 
