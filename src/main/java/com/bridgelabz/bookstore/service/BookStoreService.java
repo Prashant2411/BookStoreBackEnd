@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 public class BookStoreService implements IBookStoreService {
 
     private static final int PER_PAGE_LIMIT = 12;
-    int startLimit, endLimit;
+    int startLimit;
+    int endLimit;
 
     @Autowired
     BookStoreRepository bookStoreRepository;
@@ -25,13 +26,13 @@ public class BookStoreService implements IBookStoreService {
             throw new BookStoreException(BookStoreException.ExceptionType.NO_BOOK_FOUND, "No Book Found");
         setLimits(pagenumber);
         return byAttribute.stream()
-                .filter(limit -> limit.id >= startLimit && limit.id <= endLimit ? true : false)
+                .filter(limit -> limit.id >= this.startLimit && limit.id <= this.endLimit ? true : false)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookDetails> getAllBooks(int pagenumber) {
-        setLimits(pagenumber);
+    public List<BookDetails> getAllBooks(int pageNumber) {
+        setLimits(pageNumber);
         List<BookDetails> books = bookStoreRepository.getBooks(startLimit, endLimit);
         if (books.size() == 0)
             throw new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Max Page Limit Reached");
@@ -39,7 +40,7 @@ public class BookStoreService implements IBookStoreService {
     }
 
     private void setLimits(int pageNumber) {
-        startLimit = ((pageNumber - 1) * PER_PAGE_LIMIT) + 1;
-        endLimit = (pageNumber * PER_PAGE_LIMIT);
+        this.startLimit = ((pageNumber - 1) * PER_PAGE_LIMIT) + 1;
+        this.endLimit = (pageNumber * PER_PAGE_LIMIT);
     }
 }
