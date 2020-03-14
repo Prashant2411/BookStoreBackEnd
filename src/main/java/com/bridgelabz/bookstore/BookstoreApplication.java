@@ -1,9 +1,15 @@
 package com.bridgelabz.bookstore;
 
+import com.bridgelabz.bookstore.property.FileStorageProperty;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties({
+        FileStorageProperty.class
+})
 public class BookstoreApplication {
 
     public static void main(String[] args) {

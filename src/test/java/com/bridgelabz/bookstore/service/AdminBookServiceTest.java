@@ -6,24 +6,20 @@ import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class BookStoreServiceTest {
+public class AdminBookServiceTest {
 
     @Mock
     BookStoreRepository bookStoreRepository;
@@ -31,7 +27,7 @@ public class BookStoreServiceTest {
     FileStorageProperty fileStorageProperty;
 
     @InjectMocks
-    BookService bookService;
+    AdminBookService bookService;
 
     BookDTO bookDTO;
 
@@ -57,7 +53,7 @@ public class BookStoreServiceTest {
     @Test
     void givenImage_whenStoreInDirectory_ReturnTrue() {
         when(fileStorageProperty.getUploadDir()).thenReturn("");
-        MockMultipartFile multipartFile = new MockMultipartFile("data","filename.png","text/plain","some xml".getBytes());
+        MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some xml".getBytes());
         String path = bookService.uploadImage(multipartFile);
         Assert.assertTrue(new File(path).exists());
     }
@@ -65,9 +61,9 @@ public class BookStoreServiceTest {
     @Test
     void givenImage_whenNotStoreInDirectory_ReturnFalse() {
         when(fileStorageProperty.getUploadDir()).thenReturn("");
-        MockMultipartFile multipartFile = new MockMultipartFile("data","filename.png","text/plain","some xml".getBytes());
+        MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some xml".getBytes());
         String path = bookService.uploadImage(multipartFile);
-        Assert.assertFalse(new File(path+"adg").exists());
+        Assert.assertFalse(new File(path + "adg").exists());
     }
 
     @Test
@@ -76,8 +72,8 @@ public class BookStoreServiceTest {
             when(fileStorageProperty.getUploadDir()).thenReturn("");
             MockMultipartFile multipartFile = new MockMultipartFile("data", ".png", "text/plain", "some xml".getBytes());
             String path = bookService.uploadImage(multipartFile);
-        }catch (BookStoreException b){
-            Assert.assertEquals(BookStoreException.ExceptionType.INVALID_FILE_NAME,b.type);
+        } catch (BookStoreException b) {
+            Assert.assertEquals(BookStoreException.ExceptionType.INVALID_FILE_NAME, b.type);
         }
     }
 
@@ -87,8 +83,8 @@ public class BookStoreServiceTest {
             when(fileStorageProperty.getUploadDir()).thenReturn(null);
             MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some xml".getBytes());
             String path = bookService.uploadImage(multipartFile);
-        }catch (BookStoreException b){
-            Assert.assertEquals(BookStoreException.ExceptionType.DIRECTORY_NOT_FOUND,b.type);
+        } catch (BookStoreException b) {
+            Assert.assertEquals(BookStoreException.ExceptionType.DIRECTORY_NOT_FOUND, b.type);
         }
     }
 }

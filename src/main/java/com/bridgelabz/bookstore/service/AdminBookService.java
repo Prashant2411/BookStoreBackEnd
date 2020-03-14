@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BookService implements IBookService {
+public class AdminBookService implements IAdminBookService {
 
     private Path fileStorageLocation;
 
@@ -58,8 +58,8 @@ public class BookService implements IBookService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return targetLocation.toString();
         } catch (IOException ex) {
-            throw new BookStoreException(BookStoreException.ExceptionType.FILE_NOT_STORE, "FILE_NOT_STORE");
-        }catch (NullPointerException n){
+            throw new BookStoreException(BookStoreException.ExceptionType.FILE_NOT_STORED, "FILE_NOT_STORE");
+        } catch (NullPointerException n) {
             throw new BookStoreException(BookStoreException.ExceptionType.DIRECTORY_NOT_FOUND, "DIRECTORY_NOT_FOUND");
         }
     }
