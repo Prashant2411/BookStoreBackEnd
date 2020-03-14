@@ -2,8 +2,10 @@ package com.bridgelabz.bookstore.service;
 
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IBookService {
 
      BookDetails addBook(BookDTO bookDTO);
+     String uploadImage(MultipartFile bookDTO);
 }

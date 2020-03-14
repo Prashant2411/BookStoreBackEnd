@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 
 @RestController
@@ -25,12 +24,17 @@ public class BookStoreController {
 
     @PostMapping("/addbook")
     public ResponseEntity<ResponseDTO> addBook(@Valid @RequestBody BookDTO bookDto, BindingResult result) throws BookStoreException {
-        System.out.println(bookDto);
         if(result.hasErrors()){
             throw new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA,"Invalid Data");
         }
         BookDetails bookDetails = bookService.addBook(bookDto);
         ResponseDTO userData = new ResponseDTO("Book Added Successfully", bookDetails);
         return new ResponseEntity<ResponseDTO>(userData, HttpStatus.OK);
+    }
+
+    @PostMapping("/uploadimage")
+    public String  uploadImage(@RequestParam("file")  MultipartFile file ){
+        String uploadImage = bookService.uploadImage(file);
+        return uploadImage;
     }
 }

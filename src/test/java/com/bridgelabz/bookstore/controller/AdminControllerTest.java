@@ -11,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -99,12 +102,39 @@ public class BookStoreControllerTest {
 
     @Test
     void givenRequestToController_WhenWrongRequestData_thenShouldThrowException() throws Exception {
-            bookDTO = new BookDTO("m", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
-            String json = gson.toJson(bookDTO);
-            when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
-            MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
-                    .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        bookDTO = new BookDTO("m", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
+        String json = gson.toJson(bookDTO);
+        when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        Assert.assertEquals("Invalid Data",contentAsString);
+        Assert.assertEquals("Invalid Data", contentAsString);
+    }
+
+    @Test
+    void givenRequestToController_WhenRightPath_thenReturnStatusOk() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some png".getBytes());
+        when(bookService.uploadImage(any())).thenReturn("/directorypath");
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadimage")
+                .file("file", multipartFile.getBytes())).andReturn();
+        Assert.assertEquals(200, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequestToController_WhenWrongPath_thenThrowException() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some png".getBytes());
+        when(bookService.uploadImage(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.DIRECTORY_NOT_FOUND, "Invalid Directory"));
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadima")
+                .file("file", multipartFile.getBytes())).andReturn();
+        Assert.assertEquals(404, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequestToController_WhenWrongFileName_thenThrowException() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("data", ".png", "text/plain", "some png".getBytes());
+        when(bookService.uploadImage(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_FILE_NAME, "Invalid FileName"));
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadimage")
+                .file("file", multipartFile.getBytes())).andReturn();
+        Assert.assertEquals("Invalid FileName", mvcResult.getResponse().getContentAsString());
     }
 }
