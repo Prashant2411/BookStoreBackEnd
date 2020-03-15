@@ -34,7 +34,7 @@ public class BookDetails {
         this.bookPrice = bookDTO.bookPrice;
         this.noOfCopies = bookDTO.noOfCopies;
         this.bookDetail = bookDTO.bookDetail;
-        this.bookImageSrc = bookDTO.bookDetail;
+        this.bookImageSrc = bookDTO.bookImageSrc;
         this.publishingYear = bookDTO.publishingYear;
     }
 }
