@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class BookDTO {
 
@@ -11,6 +12,7 @@ public class BookDTO {
     @Length(min = 2, max = 20, message = "Invalid Book Name")
     public String bookName;
     @NotNull
+    @Pattern(regexp = "^[a-z,A-Z_]*$")
     public String authorName;
     @NotNull
     public double bookPrice;

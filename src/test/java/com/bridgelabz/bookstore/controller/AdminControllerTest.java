@@ -43,7 +43,6 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(200, status);
-
     }
 
     @Test
@@ -100,6 +99,17 @@ public class AdminControllerTest {
     @Test
     void givenRequestToController_WhenWrongRequestData_thenShouldThrowException() throws Exception {
         bookDTO = new BookDTO("m", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
+        String json = gson.toJson(bookDTO);
+        when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        Assert.assertEquals("Invalid Data", contentAsString);
+    }
+
+    @Test
+    void givenRequestToController_WhenWrongAuthor_thenShouldThrowException() throws Exception {
+        bookDTO = new BookDTO("make me thing", "st8el#", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
         String json = gson.toJson(bookDTO);
         when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
         MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
