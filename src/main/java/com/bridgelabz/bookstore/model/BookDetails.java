@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstore.model;
 
 import com.bridgelabz.bookstore.dto.BookDTO;
+import com.bridgelabz.bookstore.dto.OrderBookDetailDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,7 @@ public class BookDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
+
     public String bookName;
     public String authorName;
     public double bookPrice;
@@ -37,4 +39,6 @@ public class BookDetails {
         this.bookImageSrc = bookDTO.bookDetail;
         this.publishingYear = bookDTO.publishingYear;
     }
+
+
 }
