@@ -11,10 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-
 import java.io.File;
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +21,7 @@ public class AdminBookServiceTest {
 
     @Mock
     BookStoreRepository bookStoreRepository;
+
     @Mock
     FileStorageProperty fileStorageProperty;
 

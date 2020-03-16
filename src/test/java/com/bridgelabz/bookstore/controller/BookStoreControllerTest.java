@@ -35,7 +35,6 @@ public class BookStoreControllerTest {
     BookDTO bookDTO;
     Gson gson = new Gson();
 
-    // Search
 
     @Test
     void givenAttributeToSearchByBookName_whenSearchBooks_shouldReturnSearchedBooks() throws Exception {

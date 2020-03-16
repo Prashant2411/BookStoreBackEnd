@@ -2,13 +2,13 @@ package com.bridgelabz.bookstore.dto;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class BookDTO {
 
     @NotNull
+
     @Length(min = 2, max = 20, message = "Invalid Book Name")
     public String bookName;
     @NotNull
