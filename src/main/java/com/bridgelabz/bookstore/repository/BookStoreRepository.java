@@ -18,4 +18,9 @@ public interface BookStoreRepository extends JpaRepository<BookDetails, Integer>
 
     @Query(value = "select * from book_details where id >= :startLimit AND id <= :endLimit", nativeQuery = true)
     List<BookDetails> getBooks(@Param("startLimit") int startLimit,@Param("endLimit") int endLimit);
+
+    @Query(value = "select count(*) from book_details",nativeQuery = true)
+    int getCountOfBooks();
 }
+
+

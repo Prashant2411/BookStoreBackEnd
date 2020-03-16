@@ -7,4 +7,5 @@ import java.util.List;
 public interface IBookStoreService {
     List<BookDetails> searchBook(String attribute, int pageNumber);
     List<BookDetails> getAllBooks(int pagenumber);
+    int getStoredBookCount();
 }

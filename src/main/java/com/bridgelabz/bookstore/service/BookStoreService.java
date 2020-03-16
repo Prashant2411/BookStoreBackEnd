@@ -38,6 +38,12 @@ public class BookStoreService implements IBookStoreService {
         return books;
     }
 
+    @Override
+    public int getStoredBookCount() {
+        int countOfBooks = bookStoreRepository.getCountOfBooks();
+        return countOfBooks;
+    }
+
     private void setLimits(int pageNumber) {
         this.startLimit = ((pageNumber - 1) * PER_PAGE_LIMIT) + 1;
         this.endLimit = (pageNumber * PER_PAGE_LIMIT);

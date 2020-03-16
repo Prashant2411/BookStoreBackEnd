@@ -24,4 +24,10 @@ public class BookStoreController {
     public List<BookDetails> getAllBooks(@PathVariable int pagenumber) {
         return bookStoreService.getAllBooks(pagenumber);
     }
+
+    @GetMapping("/storedbookcount")
+    public int getNoOfStoredBooks(){
+        return bookStoreService.getStoredBookCount();
+    }
+
 }

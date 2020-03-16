@@ -97,4 +97,15 @@ public class BookStoreServiceTest {
             Assert.assertEquals(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, e.type);
         }
     }
+
+    //TestCase For Count No Of Books
+
+    @Test
+    void givenStoredBooks_WhenGetCount_ShouldReturnNoOfBooks() {
+        when(bookStoreRepository.getCountOfBooks()).thenReturn(6);
+        int storedBookCount = bookStoreService.getStoredBookCount();
+        Assert.assertEquals(6,storedBookCount);
+    }
+
+
 }

@@ -94,4 +94,30 @@ public class BookStoreControllerTest {
             Assert.assertEquals(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, e.type);
         }
     }
+
+    //TestCasesForCountBooks
+
+    @Test
+    void givenRequest_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
+        when(bookStoreService.getStoredBookCount()).thenReturn(3);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//storedbookcount")).andReturn();
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequest_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
+        when(bookStoreService.getStoredBookCount()).thenReturn(6);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//storedbookcount")).andReturn();
+        Assert.assertEquals("6",mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void givenWrongUrl_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
+        when(bookStoreService.getStoredBookCount()).thenReturn(3);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//stored $ bookcount")).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+    }
+
+
+
 }
