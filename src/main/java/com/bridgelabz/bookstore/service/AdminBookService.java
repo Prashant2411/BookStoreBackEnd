@@ -6,11 +6,20 @@ import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,9 +63,14 @@ public class AdminBookService implements IAdminBookService {
             if (fileName.contains("..")) {
                 throw new BookStoreException(BookStoreException.ExceptionType.INVALID_FILE_NAME, "INVALID_FILE_NAME");
             }
-            Path targetLocation = this.fileStorageLocation.resolve(id + "-" + fileName);
+            fileName = (id+"-"+fileName);
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            return targetLocation.toString();
+            String imageResponseUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("bookstore/books/image/")
+                    .path(fileName)
+                    .toUriString();
+            return imageResponseUrl;
         } catch (IOException ex) {
             throw new BookStoreException(BookStoreException.ExceptionType.FILE_NOT_STORED, "FILE_NOT_STORE");
         } catch (NullPointerException n) {

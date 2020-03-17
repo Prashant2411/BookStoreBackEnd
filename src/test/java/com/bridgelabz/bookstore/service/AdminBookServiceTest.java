@@ -51,15 +51,16 @@ public class AdminBookServiceTest {
 
     @Test
     void givenImage_whenStoreInDirectory_ReturnTrue() {
-        when(fileStorageProperty.getUploadDir()).thenReturn("");
+        when(fileStorageProperty.getUploadDir()).thenReturn("/home/admin1/Documents/FinalProject/TestImage/");
         MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some xml".getBytes());
-        String path = bookService.uploadImage(multipartFile);
+        bookService.uploadImage(multipartFile);
+        String path = fileStorageProperty.getUploadDir();
         Assert.assertTrue(new File(path).exists());
     }
 
     @Test
     void givenImage_whenNotStoreInDirectory_ReturnFalse() {
-        when(fileStorageProperty.getUploadDir()).thenReturn("");
+        when(fileStorageProperty.getUploadDir()).thenReturn("/home/admin1/Documents/FinalProject/TestImage/");
         MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some xml".getBytes());
         String path = bookService.uploadImage(multipartFile);
         Assert.assertFalse(new File(path + "adg").exists());
@@ -68,7 +69,7 @@ public class AdminBookServiceTest {
     @Test
     void givenWrongImageName_whenItIsNotStore_thenTrowException() {
         try {
-            when(fileStorageProperty.getUploadDir()).thenReturn("");
+            when(fileStorageProperty.getUploadDir()).thenReturn("/home/admin1/Documents/FinalProject/TestImage/");
             MockMultipartFile multipartFile = new MockMultipartFile("data", ".png", "text/plain", "some xml".getBytes());
             String path = bookService.uploadImage(multipartFile);
         } catch (BookStoreException b) {

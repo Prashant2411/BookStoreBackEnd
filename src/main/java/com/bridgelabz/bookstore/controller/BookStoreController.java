@@ -3,6 +3,7 @@ package com.bridgelabz.bookstore.controller;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public class BookStoreController {
         return bookStoreService.getStoredBookCount();
     }
 
+    @GetMapping("/books/image/{imageId}")
+    public ResponseEntity getImageUrl(@PathVariable("imageId") String imageId){
+        return bookStoreService.getImageResponse(imageId);
+    }
 }
