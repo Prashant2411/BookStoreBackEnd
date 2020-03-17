@@ -107,5 +107,11 @@ public class BookStoreServiceTest {
         Assert.assertEquals(6,storedBookCount);
     }
 
+    @Test
+    void givenStoredBooksWithAttribute_WhenGetCount_ShouldReturnNoOfBooks() {
+        when(bookStoreRepository.getCountOfSearchBooks("steve")).thenReturn(6);
+        int storedBookCount = bookStoreService.getStoredBookCount("steve");
+        Assert.assertEquals(6,storedBookCount);
+    }
 
 }

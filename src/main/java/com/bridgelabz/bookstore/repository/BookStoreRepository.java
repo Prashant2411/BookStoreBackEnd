@@ -21,6 +21,10 @@ public interface BookStoreRepository extends JpaRepository<BookDetails, Integer>
 
     @Query(value = "select count(*) from book_details",nativeQuery = true)
     int getCountOfBooks();
+
+    @Query(value = "select count(*) from book_details where author_name LIKE %:keyword% OR book_name LIKE %:keyword%",nativeQuery = true)
+    int getCountOfSearchBooks(@Param("keyword") String keyword);
+
 }
 
 
