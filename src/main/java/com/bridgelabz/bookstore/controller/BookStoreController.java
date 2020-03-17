@@ -3,6 +3,8 @@ package com.bridgelabz.bookstore.controller;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,7 @@ public class BookStoreController {
 
     @GetMapping("/books/image/{imageId}")
     public ResponseEntity getImageUrl(@PathVariable("imageId") String imageId){
-        return bookStoreService.getImageResponse(imageId);
+        Resource imageResponse = bookStoreService.getImageResponse(imageId);
+        return new ResponseEntity(imageResponse, HttpStatus.OK);
     }
 }

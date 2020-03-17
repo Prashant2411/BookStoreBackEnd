@@ -11,7 +11,7 @@ public class BookStoreException extends RuntimeException {
         DIRECTORY_NOT_FOUND,
         INVALID_FILE_NAME,
         FILE_NOT_STORED,
-        INVALID_BOOK_NAME
+        INVALID_FILE_PATH, INVALID_BOOK_NAME
     }
 
     public BookStoreException(ExceptionType type, String message) {

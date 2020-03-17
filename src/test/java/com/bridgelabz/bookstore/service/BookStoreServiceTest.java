@@ -3,18 +3,24 @@ package com.bridgelabz.bookstore.service;
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
+import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -22,9 +28,11 @@ public class BookStoreServiceTest {
 
     @Mock
     BookStoreRepository bookStoreRepository;
-
+    @Mock
+    FileStorageProperty fileStorageProperty;
     @InjectMocks
     BookStoreService bookStoreService;
+
 
     BookDTO bookDTO;
 
@@ -77,7 +85,6 @@ public class BookStoreServiceTest {
         books.add(bookDetails1);
         when(bookStoreRepository.getBooks(anyInt(), anyInt())).thenReturn(books);
         List<BookDetails> booksReturned = bookStoreService.getAllBooks(1);
-        System.out.println("-------------> " + booksReturned);
         Assert.assertEquals(2, booksReturned.size());
     }
 
@@ -107,5 +114,22 @@ public class BookStoreServiceTest {
         Assert.assertEquals(6,storedBookCount);
     }
 
+    @Test
+    void givenImageId_WhenIdFound_ShouldEquals() throws MalformedURLException {
+        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        Resource resource = new UrlResource(path.toUri());
+        when(this.fileStorageProperty.getUploadDir()).thenReturn("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/");
+        Resource imageResponse = bookStoreService.getImageResponse("306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        Assert.assertEquals(resource,imageResponse);
+    }
 
+    @Test
+    void givenWrongDirectoryPath_WhenDirectoryNotFound_ThrowException() {
+        Path path = Paths.get("/home/admin1/FinalProject/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        try {
+            Resource resource = new UrlResource(path.toString());
+        when(this.fileStorageProperty.getUploadDir()).thenReturn(null);
+        Resource imageResponse = bookStoreService.getImageResponse("306305a4-image-png-.png");
+        } catch (MalformedURLException e) { }
+    }
 }

@@ -11,9 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +128,24 @@ public class BookStoreControllerTest {
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
+    @Test
+    void givenImageUrl_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
+        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        Resource resource = new UrlResource(path.toUri());
+        when(bookStoreService.getImageResponse
+                (any()))
+                .thenReturn(resource);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/image/34545345345")).andReturn();
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+    }
 
-
+    @Test
+    void givenWrongImageUrl_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
+        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        Resource resource = new UrlResource(path.toUri());
+        when(bookStoreService.getImageResponse(any()))
+                .thenReturn(resource);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/xcx/34545345345")).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+    }
 }
