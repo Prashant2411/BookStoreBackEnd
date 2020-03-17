@@ -28,7 +28,7 @@ public class BookStoreController {
         return bookStoreService.getAllBooks(pagenumber);
     }
 
-    @GetMapping("/storedbookcount")
+    @GetMapping("/bookcount")
     public int getNoOfStoredBooks(){
         return bookStoreService.getStoredBookCount();
     }
@@ -37,5 +37,10 @@ public class BookStoreController {
     public ResponseEntity getImageUrl(@PathVariable("imageId") String imageId){
         Resource imageResponse = bookStoreService.getImageResponse(imageId);
         return new ResponseEntity(imageResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/bookcount/{attribute}")
+    public int getCountOfSearchBooks(@PathVariable String attribute){
+        return bookStoreService.getStoredBookCount(attribute);
     }
 }

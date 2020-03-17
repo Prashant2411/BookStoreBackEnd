@@ -54,9 +54,13 @@ public class BookStoreService implements IBookStoreService {
     }
 
     @Override
-    public int getStoredBookCount() {
-        int countOfBooks = bookStoreRepository.getCountOfBooks();
-        return countOfBooks;
+    public int getStoredBookCount(String... attribute) {
+        if(attribute.length==0) {
+            int countOfBooks = bookStoreRepository.getCountOfBooks();
+            return countOfBooks;
+        }
+        int countOfSearchBooks = bookStoreRepository.getCountOfSearchBooks(attribute[0]);
+        return countOfSearchBooks;
     }
 
     private void setLimits(int pageNumber) {

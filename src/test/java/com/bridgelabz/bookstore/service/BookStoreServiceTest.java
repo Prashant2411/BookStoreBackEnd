@@ -120,7 +120,13 @@ public class BookStoreServiceTest {
         Resource resource = new UrlResource(path.toUri());
         when(this.fileStorageProperty.getUploadDir()).thenReturn("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/");
         Resource imageResponse = bookStoreService.getImageResponse("306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
-        Assert.assertEquals(resource,imageResponse);
+        Assert.assertEquals(resource, imageResponse);
+    }
+    @Test
+    void givenStoredBooksWithAttribute_WhenGetCount_ShouldReturnNoOfBooks() {
+        when(bookStoreRepository.getCountOfSearchBooks("steve")).thenReturn(6);
+        int storedBookCount = bookStoreService.getStoredBookCount("steve");
+        Assert.assertEquals(6,storedBookCount);
     }
 
     @Test

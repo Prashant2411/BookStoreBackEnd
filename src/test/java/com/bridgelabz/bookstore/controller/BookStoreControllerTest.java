@@ -110,21 +110,43 @@ public class BookStoreControllerTest {
     @Test
     void givenRequest_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//storedbookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/bookcount")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenRequest_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(6);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//storedbookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//bookcount")).andReturn();
         Assert.assertEquals("6",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void givenWrongUrl_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//stored $ bookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ bookcount")).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+    }
+
+
+    @Test
+    void givenRequestWithAttribute_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
+        when(bookStoreService.getStoredBookCount("steve")).thenReturn(3);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/bookcount/steve")).andReturn();
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequestWithAttribute_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
+        when(bookStoreService.getStoredBookCount("steve")).thenReturn(6);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//bookcount/steve")).andReturn();
+        Assert.assertEquals("6",mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void givenWrongUrlWithAttribute_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
+        when(bookStoreService.getStoredBookCount("steve")).thenReturn(3);
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ bookcount/steve")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
