@@ -11,4 +11,5 @@ public interface IBookStoreService {
     int getStoredBookCount(String... attribute);
     SortAttribute[] getSortAttribute();
 
+    List<BookDetails> getSortedBookData(SortAttribute attribute);
 }

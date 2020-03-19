@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Sort;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -148,6 +149,21 @@ public class BookStoreServiceTest {
         Assert.assertEquals(SortAttribute.LOW_TO_HIGH,sortAttribute[0]);
         Assert.assertEquals(SortAttribute.HIGH_TO_LOW,sortAttribute[1]);
         Assert.assertEquals(SortAttribute.NEWEST_ARRIVALS,sortAttribute[2]);
+    }
+
+    @Test
+    void getEnumAttribute_WhenGetSortedData_ThenItShouldReturnSortedData() {
+        bookDTO = new BookDTO("make me", "abc", 1000.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDTO bookDTO1 = new BookDTO("xyz", "xyz", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        BookDetails bookDetails1 = new BookDetails(bookDTO1);
+        List books = new ArrayList();
+        books.add(bookDetails);
+        books.add(bookDetails1);
+        when(bookStoreRepository.findAll(Sort.by(Sort.Direction.ASC, "bookPrice"))).thenReturn(books);
+        List<BookDetails> sortedBookData = bookStoreService.getSortedBookData(SortAttribute.LOW_TO_HIGH);
+        Assert.assertEquals(bookDetails,sortedBookData.get(0));
+        Assert.assertEquals(bookDetails1,sortedBookData.get(1));
 
     }
 }

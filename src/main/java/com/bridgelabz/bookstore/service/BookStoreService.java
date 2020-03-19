@@ -8,6 +8,7 @@ import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -62,6 +63,19 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public SortAttribute[] getSortAttribute() {
        return SortAttribute.values();
+    }
+
+    @Override
+    public List<BookDetails> getSortedBookData(SortAttribute attribute) {
+        List<BookDetails> bookPrice=null;
+        if(attribute.equals(SortAttribute.LOW_TO_HIGH))
+            bookPrice = bookStoreRepository.findAll(Sort.by(Sort.Direction.ASC, "bookPrice"));
+        else if (attribute.equals(SortAttribute.HIGH_TO_LOW))
+            bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "bookPrice"));
+        else if(attribute.equals(SortAttribute.NEWEST_ARRIVALS))
+            bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "publishingYear"));
+
+        return bookPrice;
     }
 
     private void setLimits(int pageNumber) {

@@ -188,4 +188,47 @@ BookStoreControllerTest {
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
+    @Test
+    void givenSortAttribute_WhenGetResponse_ItShouldReturnOk() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW_TO_HIGH")).andReturn();
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenSortAttribute_WhenGetResponse_ItShouldReturnCorrectResult() throws Exception{
+        bookDTO = new BookDTO("make me", "abc", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDTO bookDTO1 = new BookDTO("xyz", "xyz", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        BookDetails bookDetails1 = new BookDetails(bookDTO1);
+        List books = new ArrayList();
+        books.add(bookDetails);
+        books.add(bookDetails1);
+        when(bookStoreService.getSortedBookData(SortAttribute.LOW_TO_HIGH)).thenReturn((books));
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW_TO_HIGH")).andReturn();
+        Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("abc"));
+
+    }
+
+    @Test
+    void givenWrongUrl_WhenGetResponse_ItShouldReturnBadStatus() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort  attribute/LOW_TO_HIGH")).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenAnotherAttribute_WhenGetRespone_ItShouldReturnNull() throws Exception {
+        bookDTO = new BookDTO("make me", "abc", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDTO bookDTO1 = new BookDTO("xyz", "xyz", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
+        BookDetails bookDetails = new BookDetails(bookDTO);
+        BookDetails bookDetails1 = new BookDetails(bookDTO1);
+        List books = new ArrayList();
+        books.add(bookDetails);
+        books.add(bookDetails1);
+        when(bookStoreService.getSortedBookData(SortAttribute.LOW_TO_HIGH)).thenReturn((books));
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW")).andReturn();
+        System.out.println("             effffff"+mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(0,mvcResult.getResponse().getContentAsString().length());
+
+
+    }
 }
