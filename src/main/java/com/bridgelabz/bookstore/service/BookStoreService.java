@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,9 +36,10 @@ public class BookStoreService implements IBookStoreService {
         if (byAttribute.isEmpty())
             throw new BookStoreException(BookStoreException.ExceptionType.NO_BOOK_FOUND, "No Book Found");
         setLimits(pagenumber);
-        return byAttribute.stream()
-                .filter(limit -> limit.id >= this.startLimit && limit.id <= this.endLimit ? true : false)
-                .collect(Collectors.toList());
+        List<BookDetails> foundList = new ArrayList<>();
+        for(int i = 0; i < PER_PAGE_LIMIT && i < byAttribute.size(); i++)
+            foundList.add(byAttribute.get(i));
+        return foundList;
     }
 
     @Override
