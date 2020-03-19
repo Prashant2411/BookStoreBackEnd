@@ -29,7 +29,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BookStoreControllerTest {
+public class
+BookStoreControllerTest {
 
     @Autowired
     MockMvc mockMvc;
