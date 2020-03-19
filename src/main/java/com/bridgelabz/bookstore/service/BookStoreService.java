@@ -2,7 +2,7 @@ package com.bridgelabz.bookstore.service;
 
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
-import com.bridgelabz.bookstore.model.SortAttribute;
+import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.bridgelabz.bookstore.controller;
 
 import com.bridgelabz.bookstore.model.BookDetails;
-import com.bridgelabz.bookstore.model.SortAttribute;
+import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -45,10 +45,9 @@ public class BookStoreController {
         return bookStoreService.getStoredBookCount(attribute);
     }
 
-    @GetMapping("/sort")
+    @GetMapping("/sortattribute")
     public SortAttribute[] getSortAttribute(){
         SortAttribute[] sortAttribute = bookStoreService.getSortAttribute();
         return sortAttribute;
     }
-
 }

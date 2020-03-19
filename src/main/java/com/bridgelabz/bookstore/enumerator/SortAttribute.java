@@ -1,4 +1,4 @@
-package com.bridgelabz.bookstore.model;
+package com.bridgelabz.bookstore.enumerator;
 
 public enum SortAttribute {
     LOW_TO_HIGH,

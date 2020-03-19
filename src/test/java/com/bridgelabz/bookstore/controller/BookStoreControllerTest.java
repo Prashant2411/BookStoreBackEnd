@@ -3,7 +3,7 @@ package com.bridgelabz.bookstore.controller;
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
-import com.bridgelabz.bookstore.model.SortAttribute;
+import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -12,14 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -175,14 +169,14 @@ public class BookStoreControllerTest {
     @Test
     void givenRequest_WhenGetSortAttribute_ItShouldReturnStatusOk() throws Exception {
         when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenRequest_WhenGetSortAttribute_ItShouldReturnCorrectValue() throws Exception {
         when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute")).andReturn();
         Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("LOW_TO_HIGH"));
     }
 
@@ -191,8 +185,6 @@ public class BookStoreControllerTest {
         when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
         MvcResult mvcResult = this.mockMvc.perform(get("/bookstore  /sort")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
-
-
     }
 
 }
