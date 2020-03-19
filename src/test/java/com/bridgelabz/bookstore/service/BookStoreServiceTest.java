@@ -3,6 +3,7 @@ package com.bridgelabz.bookstore.service;
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
+import com.bridgelabz.bookstore.model.SortAttribute;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.junit.Assert;
@@ -137,5 +138,17 @@ public class BookStoreServiceTest {
         when(this.fileStorageProperty.getUploadDir()).thenReturn(null);
         Resource imageResponse = bookStoreService.getImageResponse("306305a4-image-png-.png");
         } catch (MalformedURLException e) { }
+    }
+
+
+    //Sort Attribute
+
+    @Test
+    void whenGetSortAttribute_ThenItShouldReturnSortingEnums() {
+        SortAttribute[] sortAttribute = bookStoreService.getSortAttribute();
+        Assert.assertEquals(SortAttribute.LOW_TO_HIGH,sortAttribute[0]);
+        Assert.assertEquals(SortAttribute.HIGH_TO_LOW,sortAttribute[1]);
+        Assert.assertEquals(SortAttribute.NEWEST_ARRIVALS,sortAttribute[2]);
+
     }
 }

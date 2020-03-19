@@ -2,17 +2,13 @@ package com.bridgelabz.bookstore.service;
 
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
+import com.bridgelabz.bookstore.model.SortAttribute;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -61,6 +57,11 @@ public class BookStoreService implements IBookStoreService {
         }
         int countOfSearchBooks = bookStoreRepository.getCountOfSearchBooks(attribute[0]);
         return countOfSearchBooks;
+    }
+
+    @Override
+    public SortAttribute[] getSortAttribute() {
+       return SortAttribute.values();
     }
 
     private void setLimits(int pageNumber) {

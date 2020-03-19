@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @EnableConfigurationProperties({FileStorageProperty.class})
 public class BookstoreApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(BookstoreApplication.class, args);
     }

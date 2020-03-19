@@ -3,6 +3,7 @@ package com.bridgelabz.bookstore.controller;
 import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
+import com.bridgelabz.bookstore.model.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -170,4 +171,28 @@ public class BookStoreControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/xcx/34545345345")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
+
+    @Test
+    void givenRequest_WhenGetSortAttribute_ItShouldReturnStatusOk() throws Exception {
+        when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort")).andReturn();
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequest_WhenGetSortAttribute_ItShouldReturnCorrectValue() throws Exception {
+        when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort")).andReturn();
+        Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("LOW_TO_HIGH"));
+    }
+
+    @Test
+    void givenWrongUrl_WhenGetSortAttribute_ItShouldReturnStatusBad() throws Exception {
+        when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore  /sort")).andReturn();
+        Assert.assertEquals(404,mvcResult.getResponse().getStatus());
+
+
+    }
+
 }

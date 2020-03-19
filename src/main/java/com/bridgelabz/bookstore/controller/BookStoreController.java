@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstore.controller;
 
 import com.bridgelabz.bookstore.model.BookDetails;
+import com.bridgelabz.bookstore.model.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,8 +30,8 @@ public class BookStoreController {
     }
 
     @GetMapping("/bookcount")
-    public int getNoOfStoredBooks(){
-        return bookStoreService.getStoredBookCount();
+    public int getNoOfStoredBooks()
+    { return bookStoreService.getStoredBookCount();
     }
 
     @GetMapping("/books/image/{imageId}")
@@ -43,4 +44,11 @@ public class BookStoreController {
     public int getCountOfSearchBooks(@PathVariable String attribute){
         return bookStoreService.getStoredBookCount(attribute);
     }
+
+    @GetMapping("/sort")
+    public SortAttribute[] getSortAttribute(){
+        SortAttribute[] sortAttribute = bookStoreService.getSortAttribute();
+        return sortAttribute;
+    }
+
 }
