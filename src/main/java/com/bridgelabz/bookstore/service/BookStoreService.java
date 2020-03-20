@@ -38,7 +38,7 @@ public class BookStoreService implements IBookStoreService {
             throw new BookStoreException(BookStoreException.ExceptionType.NO_BOOK_FOUND, "No Book Found");
         setLimits(pagenumber);
         List<BookDetails> foundList = new ArrayList<>();
-        for(int i = 0; i < PER_PAGE_LIMIT && i < byAttribute.size(); i++)
+        for(int i = startLimit; i <= endLimit && i < byAttribute.size(); i++)
             foundList.add(byAttribute.get(i));
         return foundList;
     }
@@ -55,11 +55,9 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public int getStoredBookCount(String... attribute) {
         if(attribute.length==0) {
-            int countOfBooks = bookStoreRepository.getCountOfBooks();
-            return countOfBooks;
+            return bookStoreRepository.getCountOfBooks();
         }
-        int countOfSearchBooks = bookStoreRepository.getCountOfSearchBooks(attribute[0]);
-        return countOfSearchBooks;
+        return bookStoreRepository.getCountOfSearchBooks(attribute[0]);
     }
 
     @Override
