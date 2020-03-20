@@ -1,25 +1,17 @@
 package com.bridgelabz.bookstore.service;
 
-import com.bridgelabz.bookstore.Exception.BookStoreException;
+import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

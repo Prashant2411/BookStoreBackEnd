@@ -1,6 +1,6 @@
 package com.bridgelabz.bookstore.controller;
 
-import com.bridgelabz.bookstore.Exception.BookStoreException;
+import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.OrderBookDetailDTO;
 import com.bridgelabz.bookstore.model.OrderBookDetail;
 import com.bridgelabz.bookstore.service.OrderBookDetailService;

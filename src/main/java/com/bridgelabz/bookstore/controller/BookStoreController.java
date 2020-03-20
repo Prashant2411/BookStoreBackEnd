@@ -1,6 +1,5 @@
 package com.bridgelabz.bookstore.controller;
 
-import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

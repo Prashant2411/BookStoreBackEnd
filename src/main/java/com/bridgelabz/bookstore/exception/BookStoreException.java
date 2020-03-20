@@ -1,4 +1,4 @@
-package com.bridgelabz.bookstore.Exception;
+package com.bridgelabz.bookstore.exception;
 
 public class BookStoreException extends RuntimeException {
 

@@ -1,6 +1,6 @@
 package com.bridgelabz.bookstore.service;
 
-import com.bridgelabz.bookstore.Exception.BookStoreException;
+import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BookStoreService implements IBookStoreService {
