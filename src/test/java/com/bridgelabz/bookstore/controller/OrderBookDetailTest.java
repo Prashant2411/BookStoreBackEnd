@@ -69,7 +69,6 @@ public class OrderBookDetailTest {
         String jsonDto = gson.toJson(orderBookDetailDTO);
         OrderBookDetail orderBookDetail=new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(orderBookDetail);
-        System.out.println("jsondata             "+jsonDto);
         MvcResult mvcResult = this.mockMvc.perform(post("/  bookstore/orderbookdetail").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();

@@ -9,10 +9,10 @@ public class BookDTO {
 
     @NotNull
 
-    @Length(min = 2, max = 20, message = "Invalid Book Name")
+    @Length(min = 2, max = 50, message = "Invalid Book Name")
     public String bookName;
     @NotNull
-    @Pattern(regexp = "^[a-z,A-Z_]*$")
+    @Pattern(regexp = "^[a-zA-Z]+[ ]*[a-zA-Z]*$")
     public String authorName;
     @NotNull
     public double bookPrice;

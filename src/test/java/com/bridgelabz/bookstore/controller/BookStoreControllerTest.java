@@ -226,7 +226,6 @@ BookStoreControllerTest {
         books.add(bookDetails1);
         when(bookStoreService.getSortedBookData(SortAttribute.LOW_TO_HIGH)).thenReturn((books));
         MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW")).andReturn();
-        System.out.println("             effffff"+mvcResult.getResponse().getContentAsString());
         Assert.assertEquals(0,mvcResult.getResponse().getContentAsString().length());
 
 

@@ -49,13 +49,11 @@ public class BookStoreController {
 
     @GetMapping("/sortattribute")
     public SortAttribute[] getSortAttribute(){
-        SortAttribute[] sortAttribute = bookStoreService.getSortAttribute();
-        return sortAttribute;
+        return bookStoreService.getSortAttribute();
     }
 
     @GetMapping("/sortattribute/{attribute}")
     public List<BookDetails> getSortedData(@PathVariable("attribute") SortAttribute attribute){
-        List<BookDetails> sortedBookData = bookStoreService.getSortedBookData(attribute);
-        return sortedBookData;
+        return bookStoreService.getSortedBookData(attribute);
     }
 }

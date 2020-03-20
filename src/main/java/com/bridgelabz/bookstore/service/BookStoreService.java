@@ -76,7 +76,6 @@ public class BookStoreService implements IBookStoreService {
             bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "bookPrice"));
         else if(attribute.equals(SortAttribute.NEWEST_ARRIVALS))
             bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "publishingYear"));
-
         return bookPrice;
     }
 
