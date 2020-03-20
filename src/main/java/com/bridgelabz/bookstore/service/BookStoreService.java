@@ -8,9 +8,9 @@ import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,10 +36,8 @@ public class BookStoreService implements IBookStoreService {
         if (byAttribute.isEmpty())
             throw new BookStoreException(BookStoreException.ExceptionType.NO_BOOK_FOUND, "No Book Found");
         setLimits(pagenumber);
-        List<BookDetails> foundList = new ArrayList<>();
-        for(int i = startLimit; i <= endLimit && i < byAttribute.size(); i++)
-            foundList.add(byAttribute.get(i));
-        return foundList;
+        List<BookDetails> booksForSinglePage = getBooksForSinglePage(byAttribute);
+        return booksForSinglePage;
     }
 
     @Override
@@ -65,20 +63,13 @@ public class BookStoreService implements IBookStoreService {
     }
 
     @Override
-    public List<BookDetails> getSortedBookData(SortAttribute attribute) {
-        List<BookDetails> bookPrice=null;
-        if(attribute.equals(SortAttribute.LOW_TO_HIGH))
-            bookPrice = bookStoreRepository.findAll(Sort.by(Sort.Direction.ASC, "bookPrice"));
-        else if (attribute.equals(SortAttribute.HIGH_TO_LOW))
-            bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "bookPrice"));
-        else if(attribute.equals(SortAttribute.NEWEST_ARRIVALS))
-            bookPrice= bookStoreRepository.findAll(Sort.by(Sort.Direction.DESC, "publishingYear"));
-        return bookPrice;
-    }
-
-    private void setLimits(int pageNumber) {
-        this.startLimit = ((pageNumber - 1) * PER_PAGE_LIMIT) + 1;
-        this.endLimit = (pageNumber * PER_PAGE_LIMIT);
+    public List<BookDetails> getSortedBookData(SortAttribute attribute, int pageNumber) {
+        List<BookDetails> sortedData=attribute.getDataSorted(bookStoreRepository);
+        setLimits(pageNumber);
+        List<BookDetails> booksForSinglePage = getBooksForSinglePage(sortedData);
+        if(booksForSinglePage.size() == 0)
+            throw new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Enter Valid Page Number");
+        return booksForSinglePage;
     }
 
     public Resource getImageResponse(String imageId) {
@@ -90,5 +81,17 @@ public class BookStoreService implements IBookStoreService {
             throw new BookStoreException(BookStoreException.ExceptionType.INVALID_FILE_PATH,"Invalid_Path");
         }
         return resource;
+    }
+
+    private void setLimits(int pageNumber) {
+        this.startLimit = ((pageNumber - 1) * PER_PAGE_LIMIT) + 1;
+        this.endLimit = (pageNumber * PER_PAGE_LIMIT);
+    }
+
+    private List<BookDetails> getBooksForSinglePage(List<BookDetails> listReturned) {
+        List<BookDetails> foundList = new ArrayList<>();
+        for(int i = startLimit-1; i < endLimit && i < listReturned.size(); i++)
+            foundList.add(listReturned.get(i));
+        return foundList;
     }
 }

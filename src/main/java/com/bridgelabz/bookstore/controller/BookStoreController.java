@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.controller;
 
+import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.service.BookStoreService;
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import java.util.List;
 
 @RestController
@@ -50,8 +53,8 @@ public class BookStoreController {
         return bookStoreService.getSortAttribute();
     }
 
-    @GetMapping("/sortattribute/{attribute}")
-    public List<BookDetails> getSortedData(@PathVariable("attribute") SortAttribute attribute){
-        return bookStoreService.getSortedBookData(attribute);
+    @GetMapping("/sortattribute/{attribute}/{pageNumber}")
+    public List<BookDetails> getSortedData(@PathVariable("attribute") SortAttribute attribute, @PathVariable("pageNumber") int pageNumber){
+        return bookStoreService.getSortedBookData(attribute, pageNumber);
     }
 }
