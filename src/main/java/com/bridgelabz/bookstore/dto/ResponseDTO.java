@@ -5,7 +5,7 @@ import com.bridgelabz.bookstore.model.OrderBookDetail;
 
 public class ResponseDTO {
 
-    public OrderBookDetail orderBookDetail;
+    public int orderBookDetail;
     public String message;
     public BookDetails bookDetails;
 
@@ -14,7 +14,7 @@ public class ResponseDTO {
         this.bookDetails = bookDetails;
     }
 
-    public ResponseDTO(String message, OrderBookDetail orderBookDetail) {
+    public ResponseDTO(String message, int orderBookDetail) {
         this.message=message;
         this.orderBookDetail=orderBookDetail;
     }

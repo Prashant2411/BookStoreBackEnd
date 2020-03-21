@@ -5,13 +5,7 @@ public class BookStoreException extends RuntimeException {
     public ExceptionType type;
 
     public enum ExceptionType {
-        INVALID_DATA,
-        NO_BOOK_FOUND,
-        MAX_PAGE_LIMIT_REACHED,
-        DIRECTORY_NOT_FOUND,
-        INVALID_FILE_NAME,
-        FILE_NOT_STORED,
-        INVALID_FILE_PATH, INVALID_BOOK_NAME
+        INVALID_DATA, NO_BOOK_FOUND, MAX_PAGE_LIMIT_REACHED, DIRECTORY_NOT_FOUND, INVALID_FILE_NAME, FILE_NOT_STORED, ORDER_QUANTITY_GREATER_THEN_STOCK, INVALID_FILE_PATH
     }
 
     public BookStoreException(ExceptionType type, String message) {

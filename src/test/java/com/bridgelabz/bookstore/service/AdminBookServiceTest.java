@@ -44,7 +44,7 @@ public class AdminBookServiceTest {
         bookDTO = new BookDTO("make me think", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
         BookDetails bookDetails = new BookDetails(bookDTO);
         when(bookStoreRepository.save(any())).thenReturn(bookDetails);
-        when(bookStoreRepository.findByBookName(bookDTO.bookName)).thenReturn(Optional.of(bookDetails));
+        when(bookStoreRepository.findBybookName(bookDTO.bookName)).thenReturn(Optional.of(bookDetails));
         BookDetails bookDetails2 = bookService.addBook(bookDTO);
         Assert.assertEquals(bookDetails, bookDetails2);
     }

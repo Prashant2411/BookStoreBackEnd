@@ -22,11 +22,11 @@ public class OrderBookDetailController {
     OrderBookDetailService orderBookDetailService;
 
     @PostMapping("/orderbookdetail")
-    public ResponseEntity<ResponseDTO> addBook(@Valid @RequestBody OrderBookDetailDTO orderBookDetailDTO,BindingResult result) throws BookStoreException {
-            if (result.hasErrors()) {
-                throw new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data");
-            }
-        OrderBookDetail orderBookDetail = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
+    public ResponseEntity<ResponseDTO> addBook(@Valid @RequestBody OrderBookDetailDTO orderBookDetailDTO) throws BookStoreException {
+//            if (result.hasErrors()) {
+//                throw new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data");
+//            }
+        int orderBookDetail = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
         ResponseDTO responseData = new ResponseDTO("Info Added Successfully", orderBookDetail);
         return new ResponseEntity<ResponseDTO>(responseData,HttpStatus.OK);
     }

@@ -1,10 +1,14 @@
 package com.bridgelabz.bookstore.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookDTO {
 
     @NotNull
@@ -23,16 +27,4 @@ public class BookDTO {
     @NotNull
     @Range(min = 1000, max = 2020, message = "Invalid Publishing Year")
     public int publishingYear;
-
-    public BookDTO(@NotNull String bookName, @NotNull String authorName,
-                   @NotNull double bookPrice, @NotNull double noOfCopies,
-                   String bookDetail, String bookImageSrc, @NotNull @Length int publishingYear) {
-        this.bookName = bookName;
-        this.authorName = authorName;
-        this.bookPrice = bookPrice;
-        this.noOfCopies = noOfCopies;
-        this.bookDetail = bookDetail;
-        this.bookImageSrc = bookImageSrc;
-        this.publishingYear = publishingYear;
-    }
 }

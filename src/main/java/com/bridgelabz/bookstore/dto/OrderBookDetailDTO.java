@@ -1,16 +1,21 @@
 package com.bridgelabz.bookstore.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderBookDetailDTO {
 
     @NotNull
-    public String bookIds;
+    public int bookIds;
 
 
     @NotNull
-    public String noOfCopies;
+    public int noOfCopies;
 
     @NotNull
     public Double orderPrice;
@@ -20,7 +25,7 @@ public class OrderBookDetailDTO {
     public String customerName;
 
     @NotNull
-    @Pattern(regexp = "^[5,9]{1}[0-9]{9}$",message = "Enter Valid Mobile Number")
+    @Pattern(regexp = "^[5-9]{1}[0-9]{9}$",message = "Enter Valid Mobile Number")
     public String mobileNo;
 
     @NotNull
@@ -40,21 +45,7 @@ public class OrderBookDetailDTO {
 
     @NotNull
     @Pattern(regexp ="^[a-zA-Z0-9]+$",message = "Enter Valid LandMark")
-    public String landmark;
+    public String town;
 
     public String type;
-
-    public OrderBookDetailDTO(String bookIds, String noOfCopies, Double orderPrice, String customerName, String mobileNo, String pinCode, String locality, String address, String city, String landmark, String type) {
-        this.bookIds = bookIds;
-        this.noOfCopies = noOfCopies;
-        this.orderPrice = orderPrice;
-        this.customerName = customerName;
-        this.mobileNo = mobileNo;
-        this.pincode = pinCode;
-        this.locality = locality;
-        this.address = address;
-        this.city = city;
-        this.landmark = landmark;
-        this.type = type;
-    }
 }
