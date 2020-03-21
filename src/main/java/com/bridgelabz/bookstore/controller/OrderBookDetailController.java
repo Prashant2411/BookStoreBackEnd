@@ -28,7 +28,7 @@ public class OrderBookDetailController {
             if (result.hasErrors()) {
                 throw new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data");
             }
-        OrderBookDetail orderBookDetail = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
+        int orderBookDetail = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
         ResponseDTO responseData = new ResponseDTO("Info Added Successfully", orderBookDetail);
         return new ResponseEntity<ResponseDTO>(responseData,HttpStatus.OK);
     }

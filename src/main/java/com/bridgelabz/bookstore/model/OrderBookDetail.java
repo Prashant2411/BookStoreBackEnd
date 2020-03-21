@@ -20,10 +20,9 @@ import javax.persistence.Id;
 public class OrderBookDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int orderId;
-    public String bookIds;
-    public String noOfCopies;
+    public int bookIds;
+    public int noOfCopies;
     public Double orderPrice;
     public String customerName;
     public String mobileNo;

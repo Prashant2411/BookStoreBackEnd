@@ -5,6 +5,6 @@ import com.bridgelabz.bookstore.model.OrderBookDetail;
 
 public interface IOrderBookDetailService {
 
-    OrderBookDetail addOrderBookSummary(OrderBookDetailDTO orderBookDetailDTO);
+    int addOrderBookSummary(OrderBookDetailDTO... orderBookDetailDTO);
 
 }
