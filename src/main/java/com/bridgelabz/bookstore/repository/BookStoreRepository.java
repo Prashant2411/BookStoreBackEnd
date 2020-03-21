@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookStoreRepository extends JpaRepository<BookDetails, Integer> {
-    Optional<BookDetails> findBybookName(String bookName);
+    Optional<BookDetails> findByBookName(String bookName);
 
     @Query(value = "select * from book_details where author_name LIKE %:keyword% OR book_name LIKE %:keyword%", nativeQuery = true)
     List<BookDetails> findByAttribute(@Param("keyword") String keyword);

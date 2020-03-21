@@ -44,13 +44,13 @@ public class OrderBookDetailDTO {
 
     public String type;
 
-    public OrderBookDetailDTO(String bookIds, String noOfCopies, Double orderPrice, String customerName, String mobileNo, String pincode, String locality, String address, String city, String landmark, String type) {
+    public OrderBookDetailDTO(String bookIds, String noOfCopies, Double orderPrice, String customerName, String mobileNo, String pinCode, String locality, String address, String city, String landmark, String type) {
         this.bookIds = bookIds;
         this.noOfCopies = noOfCopies;
         this.orderPrice = orderPrice;
         this.customerName = customerName;
         this.mobileNo = mobileNo;
-        this.pincode = pincode;
+        this.pincode = pinCode;
         this.locality = locality;
         this.address = address;
         this.city = city;

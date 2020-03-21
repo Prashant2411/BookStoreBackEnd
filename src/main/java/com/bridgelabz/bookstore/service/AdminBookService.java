@@ -33,7 +33,7 @@ public class AdminBookService implements IAdminBookService {
     @Override
     public BookDetails addBook(BookDTO bookDTO) {
         BookDetails bookDetails = new BookDetails(bookDTO);
-        Optional<BookDetails> byBookName = bookStoreRepository.findBybookName(bookDTO.bookName);
+        Optional<BookDetails> byBookName = bookStoreRepository.findByBookName(bookDTO.bookName);
         if (byBookName.isPresent()) {
             bookDetails.setNoOfCopies(byBookName.get().noOfCopies + bookDTO.noOfCopies);
             bookDetails.id = byBookName.get().id;

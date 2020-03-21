@@ -31,11 +31,11 @@ public class BookStoreService implements IBookStoreService {
     FileStorageProperty fileStorageProperty;
 
     @Override
-    public List<BookDetails> searchBook(String attribute, int pagenumber) {
+    public List<BookDetails> searchBook(String attribute, int pageNumber) {
         List<BookDetails> byAttribute = bookStoreRepository.findByAttribute(attribute);
         if (byAttribute.isEmpty())
             throw new BookStoreException(BookStoreException.ExceptionType.NO_BOOK_FOUND, "No Book Found");
-        setLimits(pagenumber);
+        setLimits(pageNumber);
         List<BookDetails> booksForSinglePage = getBooksForSinglePage(byAttribute);
         return booksForSinglePage;
     }

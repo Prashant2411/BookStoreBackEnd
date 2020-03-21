@@ -39,6 +39,4 @@ public class BookDetails {
         this.bookImageSrc = bookDTO.bookImageSrc;
         this.publishingYear = bookDTO.publishingYear;
     }
-
-
 }

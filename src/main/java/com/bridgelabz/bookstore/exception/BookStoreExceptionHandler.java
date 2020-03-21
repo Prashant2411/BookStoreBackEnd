@@ -15,7 +15,7 @@ public class BookStoreExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Object> mismathcExceptionHandler(MethodArgumentTypeMismatchException e) {
+    public ResponseEntity<Object> misMatchExceptionHandler(MethodArgumentTypeMismatchException e) {
         return new ResponseEntity<>("Invalid Attribute", HttpStatus.BAD_REQUEST);
     }
 }
