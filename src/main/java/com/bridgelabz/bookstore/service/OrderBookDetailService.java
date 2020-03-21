@@ -54,7 +54,7 @@ public class OrderBookDetailService implements IOrderBookDetailService {
 
     private void updateStock(List<OrderBookDetail> orderBookDetail) {
         orderBookDetail.stream().forEach(value -> {
-            bookStoreRepository.updateStock(value.bookIds, value.noOfCopies);
+            bookStoreRepository.updateStock( value.noOfCopies, value.bookIds);
         });
     }
 }
