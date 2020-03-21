@@ -8,8 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -30,7 +28,7 @@ public class OrderBookDetail {
     public String locality;
     public String address;
     public String city;
-    public String landmark;
+    public String town;
     public String type;
 
     public OrderBookDetail(OrderBookDetailDTO orderBookDetailDTO) {
@@ -43,7 +41,7 @@ public class OrderBookDetail {
         this.locality=orderBookDetailDTO.locality;
         this.address=orderBookDetailDTO.address;
         this.city=orderBookDetailDTO.city;
-        this.landmark=orderBookDetailDTO.landmark;
+        this.town =orderBookDetailDTO.town;
         this.type=orderBookDetailDTO.type;
     }
 }

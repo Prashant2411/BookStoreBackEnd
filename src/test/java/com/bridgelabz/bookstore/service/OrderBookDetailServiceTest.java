@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.service;
 
+import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.OrderBookDetailDTO;
 import com.bridgelabz.bookstore.model.OrderBookDetail;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
@@ -34,8 +35,20 @@ public class OrderBookDetailServiceTest {
         orderBookDetailDTO = new OrderBookDetailDTO(1, 1, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailRepository.save(any())).thenReturn(orderBookDetail);
-        doNothing().when(bookStoreRepository).updateStock(anyInt(),anyInt());
+        doNothing().when(bookStoreRepository).updateStock(anyInt(), anyInt());
         int orderBookDetail1 = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
-        Assert.assertEquals( orderBookDetail.orderId, orderBookDetail1);
+        Assert.assertEquals(orderBookDetail.orderId, orderBookDetail1);
+    }
+
+    @Test
+    void givenMoreQuantityThenStock_whenOrderBook_thenReturnException() {
+        try {
+            orderBookDetailDTO = new OrderBookDetailDTO(1, 1, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
+            OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
+            when(orderBookDetailRepository.findById(anyInt())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.ORDER_QUANTITY_GREATER_THEN_STOCK, "Order quantity grater then stock"));
+            int orderBookDetail1 = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
+        } catch (BookStoreException e) {
+            Assert.assertEquals(BookStoreException.ExceptionType.ORDER_QUANTITY_GREATER_THEN_STOCK,e.type);
+        }
     }
 }

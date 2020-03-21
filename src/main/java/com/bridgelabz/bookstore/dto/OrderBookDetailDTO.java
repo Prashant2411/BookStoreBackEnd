@@ -25,7 +25,7 @@ public class OrderBookDetailDTO {
     public String customerName;
 
     @NotNull
-    @Pattern(regexp = "^[5,9]{1}[0-9]{9}$",message = "Enter Valid Mobile Number")
+    @Pattern(regexp = "^[5-9]{1}[0-9]{9}$",message = "Enter Valid Mobile Number")
     public String mobileNo;
 
     @NotNull
@@ -45,7 +45,7 @@ public class OrderBookDetailDTO {
 
     @NotNull
     @Pattern(regexp ="^[a-zA-Z0-9]+$",message = "Enter Valid LandMark")
-    public String landmark;
+    public String town;
 
     public String type;
 }

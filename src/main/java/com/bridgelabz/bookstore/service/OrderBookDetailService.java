@@ -1,6 +1,8 @@
 package com.bridgelabz.bookstore.service;
 
+import com.bridgelabz.bookstore.Exception.BookStoreException;
 import com.bridgelabz.bookstore.dto.OrderBookDetailDTO;
+import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.model.OrderBookDetail;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import com.bridgelabz.bookstore.repository.OrderBookDetailRepository;
@@ -24,6 +26,11 @@ public class OrderBookDetailService implements IOrderBookDetailService {
     @Override
     public int addOrderBookSummary(OrderBookDetailDTO... orderBookDetailDTO) {
         int orderId = getOrderId();
+        Arrays.stream(orderBookDetailDTO).forEach(value -> {
+            Optional<BookDetails> byId = bookStoreRepository.findById(value.bookIds);
+            if(value.noOfCopies > byId.get().noOfCopies)
+                throw new BookStoreException(BookStoreException.ExceptionType.ORDER_QUANTITY_GREATER_THEN_STOCK,"Order quantity is greater then stock");
+        });
         List<OrderBookDetail> collect = Arrays.stream(orderBookDetailDTO).map(value -> {
             OrderBookDetail orderBookDetail = new OrderBookDetail(value);
             orderBookDetail.orderId = orderId;
