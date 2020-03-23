@@ -59,7 +59,7 @@ public class AdminBookService implements IAdminBookService {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String imageResponseUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("bookstore/books/image/")
+                    .path("bookstore/image/")
                     .path(fileName)
                     .toUriString();
             return imageResponseUrl;
