@@ -1,7 +1,6 @@
 package com.bridgelabz.bookstore.model;
 
 import com.bridgelabz.bookstore.dto.BookDTO;
-import com.bridgelabz.bookstore.dto.OrderBookDetailDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;

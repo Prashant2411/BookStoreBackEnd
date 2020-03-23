@@ -1,7 +1,6 @@
 package com.bridgelabz.bookstore.dto;
 
 import com.bridgelabz.bookstore.model.BookDetails;
-import com.bridgelabz.bookstore.model.OrderBookDetail;
 
 public class ResponseDTO {
 

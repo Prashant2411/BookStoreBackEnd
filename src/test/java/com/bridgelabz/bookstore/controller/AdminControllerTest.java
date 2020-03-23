@@ -39,7 +39,7 @@ public class AdminControllerTest {
         String jsonDto = gson.toJson(bookDTO);
         BookDetails bookDetails = new BookDetails(bookDTO);
         when(bookService.addBook(any())).thenReturn(bookDetails);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(200, status);
@@ -51,7 +51,7 @@ public class AdminControllerTest {
         String jsonDto = gson.toJson(bookDTO);
         BookDetails bookDetails = new BookDetails(bookDTO);
         when(bookService.addBook(any())).thenReturn(bookDetails);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("steve"));
@@ -71,7 +71,7 @@ public class AdminControllerTest {
     void givenGetRequestInsteadOfPost_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
         bookDTO = new BookDTO("make me think", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
         String jsonDto = gson.toJson(bookDTO);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/addbook").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/admin/addbook").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(405, status);
@@ -81,7 +81,7 @@ public class AdminControllerTest {
     void givenAnotherContentType_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
         bookDTO = new BookDTO("make me think", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
         String jsonDto = gson.toJson(bookDTO);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(jsonDto)
                 .contentType(MediaType.APPLICATION_ATOM_XML_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(415, status);
@@ -90,7 +90,7 @@ public class AdminControllerTest {
     @Test
     void givenRequestWithoutConvertItToJson_WhenGetResponse_ItsStatusShouldReturnBad() throws Exception {
         bookDTO = new BookDTO("make me think", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 2013);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(String.valueOf(bookDTO))
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(String.valueOf(bookDTO))
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(400, status);
@@ -101,7 +101,7 @@ public class AdminControllerTest {
         bookDTO = new BookDTO("m", "steve", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
         String json = gson.toJson(bookDTO);
         when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(json)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         Assert.assertEquals("Invalid Data", contentAsString);
@@ -112,7 +112,7 @@ public class AdminControllerTest {
         bookDTO = new BookDTO("make me thing", "st8el#", 1500.0, 5, "sdrftgvhbjnkm", "sedcfgvbh", 900);
         String json = gson.toJson(bookDTO);
         when(bookService.addBook(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/addbook").content(json)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/admin/addbook").content(json)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         Assert.assertEquals("Invalid Data", contentAsString);
@@ -122,7 +122,7 @@ public class AdminControllerTest {
     void givenRequestToController_WhenRightPath_thenReturnStatusOk() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some png".getBytes());
         when(bookService.uploadImage(any())).thenReturn("/directorypath");
-        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadimage")
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/admin/uploadimage")
                 .file("file", multipartFile.getBytes())).andReturn();
         Assert.assertEquals(200, mvcResult.getResponse().getStatus());
     }
@@ -131,7 +131,7 @@ public class AdminControllerTest {
     void givenRequestToController_WhenWrongPath_thenThrowException() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("data", "filename.png", "text/plain", "some png".getBytes());
         when(bookService.uploadImage(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.DIRECTORY_NOT_FOUND, "Invalid Directory"));
-        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadima")
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/admin/uploadima")
                 .file("file", multipartFile.getBytes())).andReturn();
         Assert.assertEquals(404, mvcResult.getResponse().getStatus());
     }
@@ -140,7 +140,7 @@ public class AdminControllerTest {
     void givenRequestToController_WhenWrongFileName_thenThrowException() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("data", ".png", "text/plain", "some png".getBytes());
         when(bookService.uploadImage(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_FILE_NAME, "Invalid FileName"));
-        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/uploadimage")
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/bookstore/admin/uploadimage")
                 .file("file", multipartFile.getBytes())).andReturn();
         Assert.assertEquals("Invalid FileName", mvcResult.getResponse().getContentAsString());
     }

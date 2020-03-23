@@ -85,7 +85,7 @@ BookStoreControllerTest {
         books.add(bookDetails);
         books.add(bookDetails1);
         when(bookStoreService.getAllBooks(anyInt())).thenReturn(books);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/allbooks/1")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/1")).andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         Assert.assertTrue(contentAsString.contains("make"));
     }
@@ -94,7 +94,7 @@ BookStoreControllerTest {
     void givenWrongPageNumber_whenGetBooks_shouldThrowMaxPageLimitReachedException() throws Exception {
         try {
             when(bookStoreService.getAllBooks(anyInt())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Max Page Limit Reached"));
-            MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/allbooks/12")).andReturn();
+            MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/12")).andReturn();
             String contentAsString = mvcResult.getResponse().getContentAsString();
         } catch (BookStoreException e) {
             Assert.assertEquals(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, e.type);
@@ -106,21 +106,21 @@ BookStoreControllerTest {
     @Test
     void givenRequest_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/bookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/count")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenRequest_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(6);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/bookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/count")).andReturn();
         Assert.assertEquals("6",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void givenWrongUrl_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
         when(bookStoreService.getStoredBookCount()).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ bookcount")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ count")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
@@ -128,21 +128,21 @@ BookStoreControllerTest {
     @Test
     void givenRequestWithAttribute_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
         when(bookStoreService.getStoredBookCount("steve")).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/bookcount/steve")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/count/steve")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenRequestWithAttribute_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
         when(bookStoreService.getStoredBookCount("steve")).thenReturn(6);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//bookcount/steve")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore//count/steve")).andReturn();
         Assert.assertEquals("6",mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void givenWrongUrlWithAttribute_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
         when(bookStoreService.getStoredBookCount("steve")).thenReturn(3);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ bookcount/steve")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore// $ count/steve")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
@@ -150,12 +150,12 @@ BookStoreControllerTest {
 
     @Test
     void givenImageUrl_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
-        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/3ca0be38-848c-4efa-9a8c-ac0133d952dd-Wishingstone_mockup.png");
+        Path path = Paths.get("/home/admin1/Documents/Project/BookStoreBackEnd/src/main/resources/Images/taste.jpg");
         Resource resource = new UrlResource(path.toUri());
         when(bookStoreService.getImageResponse
                 (any()))
                 .thenReturn(resource);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/image/34545345345")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/image/34545345345")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
@@ -165,7 +165,7 @@ BookStoreControllerTest {
         Resource resource = new UrlResource(path.toUri());
         when(bookStoreService.getImageResponse(any()))
                 .thenReturn(resource);
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/books/xcx/34545345345")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/xcx/34545345345")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
@@ -188,7 +188,7 @@ BookStoreControllerTest {
     @Test
     void givenWrongUrl_WhenGetSortAttribute_ItShouldReturnStatusBad() throws Exception {
         when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sorrt")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
@@ -197,7 +197,7 @@ BookStoreControllerTest {
     @Test
     void givenSortAttribute_WhenGetResponse_ItShouldReturnOk() throws Exception {
         when(bookStoreService.getSortAttribute()).thenReturn(SortAttribute.values());
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW_TO_HIGH/1")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort/LOW_TO_HIGH/1")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
@@ -211,19 +211,19 @@ BookStoreControllerTest {
         books.add(bookDetails);
         books.add(bookDetails1);
         when(bookStoreService.getSortedBookData(any(), anyInt())).thenReturn((books));
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW_TO_HIGH/1")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort/LOW_TO_HIGH/1")).andReturn();
         Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("abc"));
     }
 
     @Test
     void givenWrongUrl_WhenGetResponse_ItShouldReturnBadStatus() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort  attribute/LOW_TO_HIGH/1")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort  /LOW_TO_HIGH/1")).andReturn();
         Assert.assertEquals(404,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenAnotherAttribute_WhenGetRespone_ItShouldReturnNull() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sortattribute/LOW/1")).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/bookstore/sort/LOW/1")).andReturn();
         Assert.assertEquals("Invalid Attribute",mvcResult.getResponse().getContentAsString());
     }
 }

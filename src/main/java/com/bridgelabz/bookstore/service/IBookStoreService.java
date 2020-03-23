@@ -1,7 +1,7 @@
 package com.bridgelabz.bookstore.service;
 
-import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.enumerator.SortAttribute;
+import com.bridgelabz.bookstore.model.BookDetails;
 
 import java.util.List;
 

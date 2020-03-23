@@ -1,8 +1,8 @@
 package com.bridgelabz.bookstore.service;
 
+import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.model.BookDetails;
-import com.bridgelabz.bookstore.enumerator.SortAttribute;
 import com.bridgelabz.bookstore.property.FileStorageProperty;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;

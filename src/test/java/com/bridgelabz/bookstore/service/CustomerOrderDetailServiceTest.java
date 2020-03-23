@@ -21,7 +21,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class OrderBookDetailServiceTest {
+public class CustomerOrderDetailServiceTest {
 
     @Mock
     OrderBookDetailRepository orderBookDetailRepository;

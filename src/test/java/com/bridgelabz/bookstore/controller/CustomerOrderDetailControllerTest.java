@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class OrderBookDetailTest {
+public class CustomerOrderDetailControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -35,20 +35,24 @@ public class OrderBookDetailTest {
 
     @Test
     void givenRequest_whenGetResponse_ItShouldReturnStatusOk() throws Exception {
-        orderBookDetailDTO = new OrderBookDetailDTO(7, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
-        String jsonDto = gson.toJson(orderBookDetailDTO);
+        OrderBookDetailDTO[] orderBookDetails = new OrderBookDetailDTO[2];
+        orderBookDetails[1] = new OrderBookDetailDTO(1, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
+        orderBookDetails[1] = new OrderBookDetailDTO(3, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
+        String jsonDto = gson.toJson(orderBookDetails);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(1);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/orderbookdetail").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/customerbookdetails").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
     @Test
     void givenRequest_WhenGetResponse_ItsResponseShouldReturnCorrect() throws Exception {
-        orderBookDetailDTO = new OrderBookDetailDTO(7, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
-        String jsonDto = gson.toJson(orderBookDetailDTO);
+        OrderBookDetailDTO[] orderBookDetails = new OrderBookDetailDTO[2];
+        orderBookDetails[1] = new OrderBookDetailDTO(1, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
+        orderBookDetails[1] = new OrderBookDetailDTO(3, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
+        String jsonDto = gson.toJson(orderBookDetails);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(1);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/orderbookdetail").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/customerbookdetails").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("Info Added Successfully"));
         Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains("1"));
@@ -60,7 +64,7 @@ public class OrderBookDetailTest {
         String jsonDto = gson.toJson(orderBookDetailDTO);
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(123456);
-        MvcResult mvcResult = this.mockMvc.perform(post("/  bookstore/orderbookdetail").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/  bookstore/customerbookdetails").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(404, status);
@@ -72,7 +76,7 @@ public class OrderBookDetailTest {
         String jsonDto = gson.toJson(orderBookDetailDTO);
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(123456);
-        MvcResult mvcResult = this.mockMvc.perform(put("/bookstore/orderbookdetail").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(put("/bookstore/customerbookdetails").content(jsonDto)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(405, status);
@@ -84,7 +88,7 @@ public class OrderBookDetailTest {
         String jsonDto = gson.toJson(orderBookDetailDTO);
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(345671);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/orderbookdetail").content(jsonDto)
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/customerbookdetails").content(jsonDto)
                 .contentType(MediaType.APPLICATION_ATOM_XML)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(415, status);
@@ -95,7 +99,7 @@ public class OrderBookDetailTest {
         orderBookDetailDTO = new OrderBookDetailDTO(7, 2, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailService.addOrderBookSummary(any())).thenReturn(123456);
-        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/orderbookdetail").content(String.valueOf(orderBookDetail))
+        MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/customerbookdetails").content(String.valueOf(orderBookDetail))
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(400, status);
@@ -107,7 +111,7 @@ public class OrderBookDetailTest {
             orderBookDetailDTO = new OrderBookDetailDTO(7, 1, 6000.0, "aaaa", "5234543212", "123456", "aaaa", "aaaaaaaa", "aaaaa", "aaaaaa", "aaaa");
             String jsonDto = gson.toJson(orderBookDetailDTO);
             when(orderBookDetailService.addOrderBookSummary(any())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.INVALID_DATA, "Invalid Data"));
-            MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/orderbookdetail").content(jsonDto)
+            MvcResult mvcResult = this.mockMvc.perform(post("/bookstore/customerbookdetails").content(jsonDto)
                     .contentType(MediaType.APPLICATION_JSON)).andReturn();
         } catch (BookStoreException e) {
             Assert.assertEquals(BookStoreException.ExceptionType.INVALID_DATA, e.type);
