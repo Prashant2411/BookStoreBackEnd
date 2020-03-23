@@ -50,9 +50,11 @@ public class CustomerOrderDetailServiceTest {
     @Test
     void givenMoreQuantityThenStock_whenOrderBook_thenReturnException() {
         try {
-            orderBookDetailDTO = new OrderBookDetailDTO(1, 1, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
+            orderBookDetailDTO = new OrderBookDetailDTO(1, 5, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
+            BookDTO bookDTO = new BookDTO("aaaa","aaaa",60.0,1,"qqq","aaaaaa",2010);
+            BookDetails bookDetails = new BookDetails(bookDTO);
             OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
-            when(orderBookDetailRepository.findById(anyInt())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.ORDER_QUANTITY_GREATER_THEN_STOCK, "Order quantity grater then stock"));
+            when(bookStoreRepository.findById(anyInt())).thenReturn(Optional.of(bookDetails));
             int orderBookDetail1 = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
         } catch (BookStoreException e) {
             Assert.assertEquals(BookStoreException.ExceptionType.ORDER_QUANTITY_GREATER_THEN_STOCK,e.type);

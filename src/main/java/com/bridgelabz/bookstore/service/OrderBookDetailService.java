@@ -36,6 +36,7 @@ public class OrderBookDetailService implements IOrderBookDetailService {
             orderBookDetail.orderId = orderId;
             return orderBookDetailRepository.save(orderBookDetail);
         }).collect(Collectors.toList());
+        collect.stream().forEach(System.out::println);
         updateStock(collect);
         return collect.get(0).orderId;
     }
@@ -45,7 +46,8 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         int orderId = 0;
         while(!unique){
             orderId = (int) Math.floor(100000 + Math.random() * 900000);
-            Optional<OrderBookDetail> byId = orderBookDetailRepository.findById(orderId);
+            Optional<OrderBookDetail> byId = orderBookDetailRepository.findByOrderId(orderId);
+//            System.out.println("-------------------------------"+byId.get());
             if( byId.isEmpty())
                 unique = true;
         }

@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -18,6 +20,8 @@ import javax.persistence.Id;
 public class OrderBookDetail {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int id;
     public int orderId;
     public int bookIds;
     public int noOfCopies;
