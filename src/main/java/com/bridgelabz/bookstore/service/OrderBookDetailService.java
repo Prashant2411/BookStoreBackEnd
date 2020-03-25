@@ -7,8 +7,13 @@ import com.bridgelabz.bookstore.model.OrderBookDetail;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import com.bridgelabz.bookstore.repository.OrderBookDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +28,9 @@ public class OrderBookDetailService implements IOrderBookDetailService {
     @Autowired
     BookStoreRepository bookStoreRepository;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
     @Override
     public int addOrderBookSummary(OrderBookDetailDTO... orderBookDetailDTO) {
         int orderId = getOrderId();
@@ -34,9 +42,10 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         List<OrderBookDetail> collect = Arrays.stream(orderBookDetailDTO).map(value -> {
             OrderBookDetail orderBookDetail = new OrderBookDetail(value);
             orderBookDetail.orderId = orderId;
-            return orderBookDetailRepository.save(orderBookDetail);
+            OrderBookDetail bookDetail = orderBookDetailRepository.save(orderBookDetail);
+            sendEmail(orderBookDetail);
+            return bookDetail;
         }).collect(Collectors.toList());
-        collect.stream().forEach(System.out::println);
         updateStock(collect);
         return collect.get(0).orderId;
     }
@@ -47,7 +56,6 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         while(!unique){
             orderId = (int) Math.floor(100000 + Math.random() * 900000);
             Optional<OrderBookDetail> byId = orderBookDetailRepository.findByOrderId(orderId);
-//            System.out.println("-------------------------------"+byId.get());
             if( byId.isEmpty())
                 unique = true;
         }
@@ -58,5 +66,19 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         orderBookDetail.stream().forEach(value -> {
             bookStoreRepository.updateStock( value.noOfCopies, value.bookIds);
         });
+    }
+
+    private void sendEmail(OrderBookDetail orderBookDetail){
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try{
+            helper.setTo(orderBookDetail.mailId);
+            helper.setText("Congratulations! Your Order Is Successfully Placed "+orderBookDetail.orderId);
+            helper.setSubject("Order Placed");
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new BookStoreException(BookStoreException.ExceptionType.AUTHENTICATION_ERROR,"Authentication_Error");
+        }
     }
 }

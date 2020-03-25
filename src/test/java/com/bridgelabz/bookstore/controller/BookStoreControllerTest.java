@@ -150,7 +150,7 @@ BookStoreControllerTest {
 
     @Test
     void givenImageUrl_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
-        Path path = Paths.get("/home/admin1/Documents/Project/BookStoreBackEnd/src/main/resources/Images/taste.jpg");
+        Path path = Paths.get("/home/admin1/Documents/Project/BookStoreBackEnd/src/main/resources/Images/3ca0be38-848c-4efa-9a8c-ac0133d952dd-Wishingstone_mockup.png");
         Resource resource = new UrlResource(path.toUri());
         when(bookStoreService.getImageResponse
                 (any()))

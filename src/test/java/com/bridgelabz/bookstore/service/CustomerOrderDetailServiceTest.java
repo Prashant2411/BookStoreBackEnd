@@ -36,7 +36,7 @@ public class CustomerOrderDetailServiceTest {
 
     @Test
     void OrderBookDetailDto_whenDetailAdd_ItShouldOrderReturnBookDetails() {
-        orderBookDetailDTO = new OrderBookDetailDTO(1, 1, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
+        orderBookDetailDTO = new OrderBookDetailDTO(1, 1, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn","girrutannel-0466@yopmail.com", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
         BookDTO bookDTO = new BookDTO("aaaa","aaaa",60.0,5,"qqq","aaaaaa",2010);
         BookDetails bookDetails = new BookDetails(bookDTO);
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
@@ -50,7 +50,7 @@ public class CustomerOrderDetailServiceTest {
     @Test
     void givenMoreQuantityThenStock_whenOrderBook_thenReturnException() {
         try {
-            orderBookDetailDTO = new OrderBookDetailDTO(1, 5, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
+            orderBookDetailDTO = new OrderBookDetailDTO(1, 5, 6000.0, "jjggjmhk", "9312345674", "400086", "tfjn","girrutannel-0466@yopmail.com", "fgbhjn tgyuhj", "cfgvhbj", "gvbhjnmk", "vghjnkml");
             BookDTO bookDTO = new BookDTO("aaaa","aaaa",60.0,1,"qqq","aaaaaa",2010);
             BookDetails bookDetails = new BookDetails(bookDTO);
             OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);

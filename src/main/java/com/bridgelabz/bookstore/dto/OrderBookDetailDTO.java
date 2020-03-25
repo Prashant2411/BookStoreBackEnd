@@ -3,6 +3,7 @@ package com.bridgelabz.bookstore.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -12,7 +13,6 @@ public class OrderBookDetailDTO {
 
     @NotNull
     public int bookIds;
-
 
     @NotNull
     public int noOfCopies;
@@ -35,6 +35,10 @@ public class OrderBookDetailDTO {
     @NotNull
     @Pattern(regexp = "^[a-zA-z0-9]+$", message = "Enter Valid Locality")
     public String locality;
+
+    @NotNull
+    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
+    public String mailId;
 
     @NotNull
     public String address;
