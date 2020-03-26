@@ -11,8 +11,12 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +33,9 @@ public class CustomerOrderDetailServiceTest {
     @Mock
     BookStoreRepository bookStoreRepository;
 
+    @Mock
+    JavaMailSender javaMailSender;
+
     @InjectMocks
     OrderBookDetailService orderBookDetailService;
 
@@ -41,6 +48,7 @@ public class CustomerOrderDetailServiceTest {
         BookDetails bookDetails = new BookDetails(bookDTO);
         OrderBookDetail orderBookDetail = new OrderBookDetail(orderBookDetailDTO);
         when(orderBookDetailRepository.save(any())).thenReturn(orderBookDetail);
+        when(this.javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session)null));
         doNothing().when(bookStoreRepository).updateStock(anyInt(), anyInt());
         when(bookStoreRepository.findById(anyInt())).thenReturn(Optional.of(bookDetails));
         int orderBookDetail1 = orderBookDetailService.addOrderBookSummary(orderBookDetailDTO);
