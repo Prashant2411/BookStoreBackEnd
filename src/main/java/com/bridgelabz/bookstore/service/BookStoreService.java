@@ -42,10 +42,10 @@ public class BookStoreService implements IBookStoreService {
     @Override
     public List<BookDetails> getAllBooks(int pageNumber) {
         setLimits(pageNumber);
-        List<BookDetails> books = bookStoreRepository.getBooks(startLimit, endLimit);
+        List<BookDetails> books = bookStoreRepository.findAll();
         if (books.size() == 0)
             throw new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Max Page Limit Reached");
-        return books;
+        return getBooksForSinglePage(books);
     }
 
     @Override

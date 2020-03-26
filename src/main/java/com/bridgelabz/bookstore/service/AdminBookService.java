@@ -34,10 +34,6 @@ public class AdminBookService implements IAdminBookService {
     public BookDetails addBook(BookDTO bookDTO) {
         BookDetails bookDetails = new BookDetails(bookDTO);
         Optional<BookDetails> byBookName = bookStoreRepository.findBybookName(bookDTO.bookName);
-        if (byBookName.isPresent()) {
-            bookDetails.setNoOfCopies(byBookName.get().noOfCopies + bookDTO.noOfCopies);
-            bookDetails.id = byBookName.get().id;
-        }
         BookDetails info = bookStoreRepository.save(bookDetails);
         return info;
     }
