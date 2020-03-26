@@ -10,15 +10,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @Configuration
-public class configuration {
+public class ApplicationConfiguration {
 
     @Bean
-    public Docket api() {
+    public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build()
-                .pathMapping("/");
+                .apis(RequestHandlerSelectors.basePackage("com.bridgelabz.bookstore"))
+                .paths(PathSelectors.any()).build();
     }
+
+
 }
