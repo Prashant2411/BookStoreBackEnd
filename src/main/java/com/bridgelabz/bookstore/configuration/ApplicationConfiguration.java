@@ -36,9 +36,9 @@ public class ApplicationConfiguration {
                         "Once the user add book to cart, then user fill details so user can purchased book ."+
                         "After that user get email of Successful placed order with order-id  ",
                 "1.0",
-                "Terms of service",
-                new Contact("Bridgelabz", "www.bridgelabz.com", "contactus@bridgelabz.com"),
-                "License of API", "www.bridgelabz.com", Collections.emptyList());
+                "http://www.bridgelabz.com",
+                new Contact("Bridgelabz", "http://www.bridgelabz.com", "contactus@bridgelabz.com"),
+                "License of API", "http://www.bridgelabz.com", Collections.emptyList());
     }
 
 }
