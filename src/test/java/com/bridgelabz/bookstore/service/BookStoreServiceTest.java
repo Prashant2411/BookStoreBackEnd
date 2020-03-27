@@ -83,7 +83,7 @@ public class BookStoreServiceTest {
         List books = new ArrayList();
         books.add(bookDetails);
         books.add(bookDetails1);
-        when(bookStoreRepository.getBooks(anyInt(), anyInt())).thenReturn(books);
+        when(bookStoreRepository.findAll()).thenReturn(books);
         List<BookDetails> booksReturned = bookStoreService.getAllBooks(1);
         Assert.assertEquals(2, booksReturned.size());
     }
@@ -98,7 +98,7 @@ public class BookStoreServiceTest {
             List books = new ArrayList();
             books.add(bookDetails);
             books.add(bookDetails1);
-            when(bookStoreRepository.getBooks(anyInt(), anyInt())).thenThrow(new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Max Page Limit Reached"));
+            when(bookStoreRepository.findAll()).thenThrow(new BookStoreException(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, "Max Page Limit Reached"));
             List<BookDetails> booksReturned = bookStoreService.getAllBooks(12);
         } catch (BookStoreException e) {
             Assert.assertEquals(BookStoreException.ExceptionType.MAX_PAGE_LIMIT_REACHED, e.type);
