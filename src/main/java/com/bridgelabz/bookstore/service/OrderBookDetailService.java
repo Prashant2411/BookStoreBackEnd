@@ -6,9 +6,12 @@ import com.bridgelabz.bookstore.model.BookDetails;
 import com.bridgelabz.bookstore.model.OrderBookDetail;
 import com.bridgelabz.bookstore.repository.BookStoreRepository;
 import com.bridgelabz.bookstore.repository.OrderBookDetailRepository;
+import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -16,6 +19,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +36,8 @@ public class OrderBookDetailService implements IOrderBookDetailService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
     @Override
     public int addOrderBookSummary(OrderBookDetailDTO... orderBookDetailDTO) {
         int orderId = getOrderId();
@@ -42,10 +50,15 @@ public class OrderBookDetailService implements IOrderBookDetailService {
             OrderBookDetail orderBookDetail = new OrderBookDetail(value);
             orderBookDetail.orderId = orderId;
             OrderBookDetail bookDetail = orderBookDetailRepository.save(orderBookDetail);
-            sendEmail(orderBookDetail);
             return bookDetail;
         }).collect(Collectors.toList());
         updateStock(collect);
+        try {
+            sendEmail(collect);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new BookStoreException(BookStoreException.ExceptionType.AUTHENTICATION_ERROR, "Authentication_Error");
+        }
         return collect.get(0).orderId;
     }
 
@@ -67,17 +80,19 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         });
     }
 
-    private void sendEmail(OrderBookDetail orderBookDetail) {
+    private void sendEmail(List<OrderBookDetail> orderBookDetail) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        try {
-            helper.setTo(orderBookDetail.mailId);
-            helper.setText("Congratulations! Your Order Is Successfully Placed " + orderBookDetail.orderId);
-            helper.setSubject("Order Placed");
-            javaMailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new BookStoreException(BookStoreException.ExceptionType.AUTHENTICATION_ERROR, "Authentication_Error");
-        }
+        helper.setTo(orderBookDetail.get(0).mailId);
+        helper.setText("Dear " + orderBookDetail.get(0).customerName + ",\nCongratulations! Your order for the books is Successfully Placed. \nYour order id is "
+                + orderBookDetail.get(0).orderId + ".\nYou can use this order id to track the order");
+        helper.setSubject("BookStore Order Placed");
+        executorService.submit(() -> {
+            try {
+                javaMailSender.send(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

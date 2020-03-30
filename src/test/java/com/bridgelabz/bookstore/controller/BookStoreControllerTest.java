@@ -150,7 +150,7 @@ BookStoreControllerTest {
 
     @Test
     void givenImageUrl_WhenGetResponse_ItShouldReturnStatusOk() throws Exception {
-        Path path = Paths.get("/home/admin1/Documents/Project/BookStoreBackEnd/src/main/resources/Images/3ca0be38-848c-4efa-9a8c-ac0133d952dd-Wishingstone_mockup.png");
+        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/4d29804d-ebad-4db8-886b-504c137a0669-Twilight 1.jpg");
         Resource resource = new UrlResource(path.toUri());
         when(bookStoreService.getImageResponse
                 (any()))
@@ -161,7 +161,7 @@ BookStoreControllerTest {
 
     @Test
     void givenWrongImageUrl_WhenGetResponse_ItShouldReturnStatusBad() throws Exception {
-        Path path = Paths.get("/home/admin1/Documents/FinalProject/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
+        Path path = Paths.get("/home/admin1/Documents/Project/BookStoreBackEnd/src/main/resources/Images/306305a4-5c2a-4de7-9258-aa42b505fde2-sample-image-png-.png");
         Resource resource = new UrlResource(path.toUri());
         when(bookStoreService.getImageResponse(any()))
                 .thenReturn(resource);
