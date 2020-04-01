@@ -64,8 +64,6 @@ public class BookStoreService implements IBookStoreService {
 
     @Override
     public List<BookDetails> getSortedBookData(SortAttribute attribute, int pageNumber) {
-        if(attribute.equals(SortAttribute.SORT_BY_RELEVANCE))
-            return getAllBooks(pageNumber);
         List<BookDetails> sortedData=attribute.getDataSorted(bookStoreRepository);
         setLimits(pageNumber);
         List<BookDetails> booksForSinglePage = getBooksForSinglePage(sortedData);

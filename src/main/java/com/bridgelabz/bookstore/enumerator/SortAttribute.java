@@ -7,12 +7,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public enum SortAttribute {
-    SORT_BY_RELEVANCE {
-        @Override
-        public List<BookDetails> getDataSorted(BookStoreRepository bookStoreRepository) {
-            return null;
-        }
-    },
+
     LOW_TO_HIGH {
         @Override
         public List<BookDetails> getDataSorted(BookStoreRepository bookStoreRepository) {

@@ -150,10 +150,9 @@ public class BookStoreServiceTest {
     @Test
     void whenGetSortAttribute_ThenItShouldReturnSortingEnums() {
         SortAttribute[] sortAttribute = bookStoreService.getSortAttribute();
-        Assert.assertEquals(SortAttribute.SORT_BY_RELEVANCE,sortAttribute[0]);
-        Assert.assertEquals(SortAttribute.LOW_TO_HIGH, sortAttribute[1]);
-        Assert.assertEquals(SortAttribute.HIGH_TO_LOW, sortAttribute[2]);
-        Assert.assertEquals(SortAttribute.NEWEST_ARRIVALS, sortAttribute[3]);
+        Assert.assertEquals(SortAttribute.LOW_TO_HIGH, sortAttribute[0]);
+        Assert.assertEquals(SortAttribute.HIGH_TO_LOW, sortAttribute[1]);
+        Assert.assertEquals(SortAttribute.NEWEST_ARRIVALS, sortAttribute[2]);
     }
 
     //Sort

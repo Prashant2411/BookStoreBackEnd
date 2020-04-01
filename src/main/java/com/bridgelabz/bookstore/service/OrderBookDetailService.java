@@ -56,7 +56,6 @@ public class OrderBookDetailService implements IOrderBookDetailService {
         try {
             sendEmail(collect);
         } catch (MessagingException e) {
-            e.printStackTrace();
             throw new BookStoreException(BookStoreException.ExceptionType.AUTHENTICATION_ERROR, "Authentication_Error");
         }
         return collect.get(0).orderId;
@@ -91,7 +90,7 @@ public class OrderBookDetailService implements IOrderBookDetailService {
             try {
                 javaMailSender.send(message);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new BookStoreException(BookStoreException.ExceptionType.INTERNAL_SERVER_ERROR,"INTERNAL_SERVER_ERROR");
             }
         });
     }
