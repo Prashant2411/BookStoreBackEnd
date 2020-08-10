@@ -26,4 +26,5 @@ jobs:
     - name: Run a multi-line script
       run: |
         ls -l
+        gradle --version
         ./gradlew bootRun
