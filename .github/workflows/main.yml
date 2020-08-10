@@ -26,3 +26,6 @@ jobs:
     - name: Run a multi-line script
       run: |
         ls -l
+        ./gradlew clean
+        ./gradlew build
+        ./gradlew bootRun
