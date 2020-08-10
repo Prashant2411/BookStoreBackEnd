@@ -26,5 +26,7 @@ jobs:
     - name: Run a multi-line script
       run: |
         ls -l
-        gradle --version
+        sudo add-apt-repository ppa:cwchien/gradle
+        sudo apt-get update
+        sudo apt upgrade gradle
         ./gradlew bootRun
